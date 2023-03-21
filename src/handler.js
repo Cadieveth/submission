@@ -1,7 +1,7 @@
 const { nanoid } = require('nanoid');
 const books = require('./books');
 
-const addBookHandler = (request, h) => {
+const addBook = (request, h) => {
   const {
     name,
     year,
@@ -80,7 +80,7 @@ const addBookHandler = (request, h) => {
   return response;
 };
 
-const getAllBooksHandler = (request, h) => {
+const getAllBooks = (request, h) => {
   const { name, reading, finished } = request.query;
 
   if (!name && !reading && !finished) {
@@ -164,7 +164,7 @@ const getAllBooksHandler = (request, h) => {
   return response;
 };
 
-const getBookByIdHandler = (request, h) => {
+const getBookById = (request, h) => {
   const { bookId } = request.params;
 
   const book = books.filter((n) => n.id === bookId)[0];
@@ -190,7 +190,7 @@ const getBookByIdHandler = (request, h) => {
   return response;
 };
 
-const editBookByIdHandler = (request, h) => {
+const editBookById = (request, h) => {
   const { bookId } = request.params;
 
   const {
@@ -263,7 +263,7 @@ const editBookByIdHandler = (request, h) => {
   return response;
 };
 
-const deleteBookByIdHandler = (request, h) => {
+const deleteBookById = (request, h) => {
   const { bookId } = request.params;
 
   const index = books.findIndex((note) => note.id === bookId);
@@ -290,9 +290,9 @@ const deleteBookByIdHandler = (request, h) => {
 };
 
 module.exports = {
-  addBookHandler,
-  getAllBooksHandler,
-  getBookByIdHandler,
-  editBookByIdHandler,
-  deleteBookByIdHandler,
+  addBook,
+  getAllBooks,
+  getBookById,
+  editBookById,
+  deleteBookById,
 };
