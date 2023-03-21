@@ -1,5 +1,4 @@
 const { nanoid } = require('nanoid');
-// files
 const books = require('./books');
 
 const addBookHandler = (request, h) => {
@@ -15,7 +14,6 @@ const addBookHandler = (request, h) => {
   } = request.payload;
 
   if (!name) {
-    // Client tidak melampirkan properti name pada request body
     const response = h
       .response({
         status: 'fail',
@@ -26,7 +24,6 @@ const addBookHandler = (request, h) => {
   }
 
   if (readPage > pageCount) {
-    // Client melampirkan nilai properti readPage yang lebih besar dari nilai properti pageCount
     const response = h
       .response({
         status: 'fail',
@@ -57,12 +54,11 @@ const addBookHandler = (request, h) => {
     updatedAt,
   };
 
-  books.push(newBook); // push to books array
+  books.push(newBook);
 
-  const isSuccess = books.filter((note) => note.id === id).length > 0; // cek if newBook pushed
+  const isSuccess = books.filter((note) => note.id === id).length > 0;
 
   if (isSuccess) {
-    // Bila buku berhasil dimasukkan
     const response = h
       .response({
         status: 'success',
@@ -75,7 +71,6 @@ const addBookHandler = (request, h) => {
     return response;
   }
 
-  // Server gagal memasukkan buku karena alasan umum (generic error).
   const response = h
     .response({
       status: 'fail',
@@ -89,7 +84,6 @@ const getAllBooksHandler = (request, h) => {
   const { name, reading, finished } = request.query;
 
   if (!name && !reading && !finished) {
-    // kalau tidak ada query
     const response = h
       .response({
         status: 'success',
@@ -130,7 +124,6 @@ const getAllBooksHandler = (request, h) => {
   }
 
   if (reading) {
-    // kalau ada query reading
     const filteredBooksReading = books.filter(
       (book) => Number(book.reading) === Number(reading),
     );
@@ -151,7 +144,6 @@ const getAllBooksHandler = (request, h) => {
     return response;
   }
 
-  // kalau ada query finished
   const filteredBooksFinished = books.filter(
     (book) => Number(book.finished) === Number(finished),
   );
@@ -175,10 +167,9 @@ const getAllBooksHandler = (request, h) => {
 const getBookByIdHandler = (request, h) => {
   const { bookId } = request.params;
 
-  const book = books.filter((n) => n.id === bookId)[0]; // find book by id
+  const book = books.filter((n) => n.id === bookId)[0];
 
   if (book) {
-    // Bila buku dengan id yang dilampirkan ditemukan
     const response = h
       .response({
         status: 'success',
@@ -190,7 +181,6 @@ const getBookByIdHandler = (request, h) => {
     return response;
   }
 
-  // Bila buku dengan id yang dilampirkan oleh client tidak ditemukan
   const response = h
     .response({
       status: 'fail',
@@ -215,7 +205,6 @@ const editBookByIdHandler = (request, h) => {
   } = request.payload;
 
   if (!name) {
-    // Client tidak melampirkan properti name pada request body
     const response = h
       .response({
         status: 'fail',
@@ -226,7 +215,6 @@ const editBookByIdHandler = (request, h) => {
   }
 
   if (readPage > pageCount) {
-    // Client melampirkan nilai properti readPage yang lebih besar dari nilai properti pageCount
     const response = h
       .response({
         status: 'fail',
@@ -240,7 +228,7 @@ const editBookByIdHandler = (request, h) => {
   const finished = pageCount === readPage;
   const updatedAt = new Date().toISOString();
 
-  const index = books.findIndex((note) => note.id === bookId); // find book by id
+  const index = books.findIndex((note) => note.id === bookId);
 
   if (index !== -1) {
     books[index] = {
@@ -257,7 +245,6 @@ const editBookByIdHandler = (request, h) => {
       updatedAt,
     };
 
-    // Bila buku berhasil diperbarui
     const response = h
       .response({
         status: 'success',
@@ -267,7 +254,6 @@ const editBookByIdHandler = (request, h) => {
     return response;
   }
 
-  // id yang dilampirkan oleh client tidak ditemukkan oleh server
   const response = h
     .response({
       status: 'fail',
@@ -280,12 +266,11 @@ const editBookByIdHandler = (request, h) => {
 const deleteBookByIdHandler = (request, h) => {
   const { bookId } = request.params;
 
-  const index = books.findIndex((note) => note.id === bookId); // find book by id
+  const index = books.findIndex((note) => note.id === bookId);
 
   if (index !== -1) {
     books.splice(index, 1);
 
-    // Bila id dimiliki oleh salah satu buku
     const response = h
       .response({
         status: 'success',
@@ -295,7 +280,6 @@ const deleteBookByIdHandler = (request, h) => {
     return response;
   }
 
-  // Bila id yang dilampirkan tidak dimiliki oleh buku manapun
   const response = h
     .response({
       status: 'fail',
