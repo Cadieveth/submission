@@ -18,7 +18,7 @@
   "license": "ISC",
   "dependencies": {
     "@hapi/hapi": "^21.3.0",
-    "nanoid": "^3.1.22"
+    "nanoid": "^4.0.1"
   },
   "devDependencies": {
     "@hapi/hapi": "^20.1.2",
